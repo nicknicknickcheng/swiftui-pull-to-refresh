@@ -62,13 +62,15 @@ private enum RefreshState {
 public struct RefreshableScrollView<Content: View>: View {
   let onRefresh: OnRefresh // the refreshing action
   let content: Content // the ScrollView content
+    let foregroundColor: Color
 
   @State private var state = RefreshState.waiting // the current state
 
   // We use a custom constructor to allow for usage of a @ViewBuilder for the content
-  public init(onRefresh: @escaping OnRefresh, @ViewBuilder content: () -> Content) {
-    self.onRefresh = onRefresh
-    self.content = content()
+    public init(foregroundColor: Color, onRefresh: @escaping OnRefresh, @ViewBuilder content: () -> Content) {
+        self.foregroundColor = foregroundColor
+        self.onRefresh = onRefresh
+        self.content = content()
   }
 
   public var body: some View {
@@ -92,7 +94,7 @@ public struct RefreshableScrollView<Content: View>: View {
           // The loading view. It's offset to the top of the content unless we're loading.
           ZStack {
             Rectangle()
-              .foregroundColor(.white)
+              .foregroundColor(foregroundColor)
               .frame(height: THRESHOLD)
             ActivityIndicator(isAnimating: state == .loading) {
               $0.hidesWhenStopped = false
