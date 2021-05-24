@@ -33,7 +33,7 @@ private struct PositionIndicator: View {
   var body: some View {
     GeometryReader { proxy in
         // the View itself is an invisible Shape that fills as much as possible
-        Color.clear
+        foregroundColor
           // Compute the top Y position and emit it to the Preferences queue
           .preference(key: PositionPreferenceKey.self, value: [Position(type: type, y: proxy.frame(in: .global).minY)])
      }
